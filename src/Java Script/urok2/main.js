@@ -50,7 +50,7 @@ const getNames = (array) => {
     }
     return result
 }
-console.log(getNames(student));
+// console.log(getNames(student));
 
 //Задача 2 определить средний бал в группе
 
@@ -71,7 +71,7 @@ const getScores = (array) => {
     }
     return result
 }
-console.log(getScores(student));
+// console.log(getScores(student));
 
 
 const addScores = (array) => {
@@ -83,7 +83,7 @@ const addScores = (array) => {
 
     return result
 }
-console.log(addScores(student));
+// console.log(addScores(student));
 
 //функцию для преобразования массивов  создаем заместо трех
 
@@ -95,9 +95,9 @@ const getMappedArray = (array, mapFunc) => {
     }
     return result
 }
-console.log(getMappedArray(student, st => st.name));// получить name из обьекта
-console.log(getMappedArray(student, st => st.scores)); // получить  количество баллов score из обьекта
-console.log(getMappedArray(student, st => ({...st, scores: st.scores + 10})));// получить  увеличивали очки на 10 из обьекта
+// console.log(getMappedArray(student, st => st.name));// получить name из обьекта
+// console.log(getMappedArray(student, st => st.scores)); // получить  количество баллов score из обьекта
+// console.log(getMappedArray(student, st => ({...st, scores: st.scores + 10})));// получить  увеличивали очки на 10 из обьекта
 //document.write(student.map( st=> st.name));// метод map
 
 //метод filter
@@ -116,40 +116,86 @@ const getFilterArray = (array, filterFun) => {
     }
     return result
 }
-console.log(getFilterArray(student, st => st.age >= 21));
-console.log(student.filter(st => st.age >= 25));
+// console.log(getFilterArray(student, st => st.age >= 21));
+// console.log(student.filter(st => st.age >= 25));
 
 //find,push,  indexOf, includes
 
+//метод find не возврощает новый массив он возврощает ссылку на первый элемент который удол. усл.поиска
 const getFind = (array, findFun) => {
-    const result = new Array()
     for (let i = 0; i < array.length; i++) {
         if (findFun(array[i]) === true) {
-            result[result.length] = array[i]
+            return array[i]
         }
     }
-    return result
 }
-console.log(getFind(student, st => st.age > 20));
-console.log(student.find(st => st.age > 20));
+//console.log(getFind(student, st => st.age > 20));
+// console.log(student.find(st => st.age > 20));
 
 
-//
-const getPush = (array, PushFun) => {
-    const result = new Array()
-    for (let i = 0; i < array.length; i++) {
-        const getResult = el => ({...el, scores: el.scores + 10})
-        result[i] = getResult(array[i])
+// возвратил длину массива стало 5
+const getPush = (array, el) => {
+    array[array.length] = el
+    return array.length
+}
+//console.log(getPush(student,st => el=> el.length))
+
+
+// для поиска индекса первого вхождения определенного элемента в массиве или строке.
+const getIndexOf = (array, element) => {
+    return array.indexOf(element);
+}
+//console.log(getIndexOf(student, 3));
+
+
+//присутствует ли определенный элемент в массиве, вы можете использовать метод Array.includes.
+const getIncudes = (array, element) => {
+    return array.includes(element);
+}
+
+//console.log(getIncudes(student, 3));
+
+const selfMadeIndexOf = (array, el, start = 0) => {
+    for (let i = start; i < array.length; i++) {
+        if (array[i] === el) {
+            return i
+        }
     }
-    return result
+    return -1
 }
 
-console.log(getPush(student, st => ({...st, scores: st.scores + 40})));
-//  console.log(student.push(st=>({...st, scores: st.scores + 40}) ));????
-// console.log(student.indexOf(st => st.scores > 100));
-// console.log(student.includes(st=> st.age >= 25));
+//console.log(selfMadeIndexOf(student,23,2));
 
+const selfMadeIncludes = (array, el, start = 0) => {
+    for (let i = start; i < array.length; i++) {
+        if (array[i] === el) {
+            return true
+        }
+    }
+    return false
+}
 
+//console.log(selfMadeIncludes(student,3));
 
+//написать функцию, которая будет брать функцию и возврощать строку
+//нужно вставить длинну массива
+//это функция могла определять любую  длинну массива
+//this это тот обьект или массив, который будет использовать эту функцию ${this.length}
+//функция определи длину того массива, который тебя использует в качестве метода
+//какой массив станет понятно , огда какой-то массив это сделает
+//THIS использовать можно только,как функция //Контекст вызова использутьмя регулярной функцией
+function getLength() {
+    return `длинна массива равна ${this.length}`
 
+}
+
+//student.getLength => `длинна массива равна 4`
+
+// у нашегоArray есть свойство prototype можно вызвать метод  getLength будет функция  getLength
+
+Array.prototype.getLength = getLength
+//Теперь все массивы будут иметь метод getLength
+
+//console.log([].getLength())
+console.log([1, 2, 3, 4, 5].getLength());
 

@@ -29,3 +29,104 @@
 //{...} => сведение о событии => Event=> event => ev=> e- обьект описывающий событие или обьект содержащий сведения о событии (обьект события)
 //конструкторы new Array()/проиходит запуск функции//new Object(),new Event() // и создаеться обьект
 //function(Event-передаеться в качестве пораметра в нашу функцию.Внутри этой функции он нам доступен)
+
+
+//синтаксичиски зарегестрировать обрпботчик событий
+
+//getElementById- это функция или метод обьекта document,
+// которая в качестве параметра принимает Id и возврощает ссылку на элемент с указанной Id
+//есть функции сами по себе
+//функция которая обслуживают обьект называеться метод обьекта
+
+//создаем обработчик событий
+//свойство может хранить только одно значение
+//поевсить 2 обработчика событий
+
+
+const sm = document.getElementById("small");
+const md = document.getElementById("medium");
+const bg = document.getElementById("big");
+
+
+//метод   e.stopPropagation() вызови эту функцию больше не чего, не вызывай
+function handler (e){
+    e.stopPropagation()
+    alert("good")
+    // console.log(e.target,":",e.currentTarget);
+}
+//e.currentTarget- текущая цель,изменяемый элемент
+// target- один и тот же элемент по которому кликнули
+//разница между target и currenTarget у всплывающих событий есть только,у всплывающих событий примерно у клика
+//в свойтсво target записываеться тот элемент с котрого   все началось
+// в свойство currentTarget- мы получаем доступ к таму элементу  который вызвал функцию
+
+
+function handler2 (params){
+   alert(params);
+}
+
+function double(params){
+    handler(params)
+   handler2(params)
+}
+
+// sm.onclick =handler
+// sm.onclick =double
+
+console.log(sm.addEventListener("click",handler))
+//console.log(sm.addEventListener("click",handler2))
+
+//как снять обработчик событий
+//если это свойсьво можно перезаписать
+//sm.onclick = null
+
+//метод для обработчика событий это функция addEventListener
+//который принимает  2 параметра
+//1. тип события, названия события
+//2.функция
+//что возврощает метод addEventListener
+//console.log(sm.addEventListener("click",handler))//undefined
+//причины использования метода addEventListener
+//1.состоит в том, что можно вешать неограниченное количество обработчиков
+//console.log(getEventListeners(sm)) // выведит {click: Array(2)}
+
+//Элемент target -это тот элемент по которрому мы кликнули (тот в котором произашло события)
+//есть события простые onChanges происходит, только в input- больше не где
+//событие onClick -отслеживаеться на всех HTML элементах//сложное событие//учет вложенности влияет
+//есть событие всплывающие и не всплывающие
+
+//Событие target в контексте JavaScript обычно относится к свойству события, которое указывает на элемент, который был целью (или источником) события.
+//Когда происходит событие, такое как клик мышью или отправка формы, объект события содержит информацию о событии, включая свойство target.
+
+
+//более сложноя модель события блогодоря методу addEventListener обработки пользовательских действий
+
+sm.addEventListener("click", handler,{capture:true,once:true })//обьект с настройками на этом элементе только один раз
+md.addEventListener("click", handler,true)//третий параметр
+bg.addEventListener("click", handler,true)
+
+
+
+function handler3 (e) {
+        alert("good")
+}
+sm.addEventListener("click", handler3)
+
+//снять обработчик события /метод
+sm.removeEventListener("click",handler)
+
+
+//e.preventDefault()-прекратить, предупредить дефолтное поведение
+
+// у нас есть в html <a href="https://learn.javascript.ru/" id ="a">LearnJs</a>
+const fn = (e) => {
+    e.preventDefault();
+    alert("Hey!!!");
+}
+
+const a = document.getElementById("a");
+a.addEventListener("click", fn);
+a.removeEventListener("click", fn);
+
+
+
